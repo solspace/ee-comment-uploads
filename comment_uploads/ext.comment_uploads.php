@@ -1,4 +1,4 @@
-<?php if ( ! defined('EXT')) exit('No direct script access allowed');
+<?php
 
 /**
  * Comment Uploads
@@ -8,19 +8,22 @@
  * @copyright	Copyright (c) 2008-2020, Solspace, Inc.
  * @link		https://solspace.com/expressionengine/legacy/comment-uploads
  * @license		https://docs.solspace.com/license-agreement/
- * @version		2.1.0
+ * @version		3.0.0
  */
 
-require_once 'addon_builder/extension_builder.php';
+require_once (__DIR__."/addon.setup.php");
 
-class Comment_uploads_ext extends Extension_builder_comment_uploads
+class Comment_uploads_ext
 {
 	public $settings		= array();
-	public $name			= '';
-	public $version			= '';
+	public $default_settings = array();
+	public $name			= 'Comment Uploads';
+	public $version			= '3.0.0';
 	public $description		= '';
 	public $settings_exist	= 'n';
 	public $docs_url		= '';
+	public $extension_name = __CLASS__;
+	public $cache = array();
 	private $encrypt_key    = 'cuep7ich9dec8myit7foc3payt7hot2ab4on8faic6yoc6ov9d';
 
 	// --------------------------------------------------------------------
@@ -34,8 +37,6 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 
 	public function __construct($settings = array())
 	{
-		parent::__construct();
-
 		// --------------------------------------------
 		//  Settings
 		// --------------------------------------------
@@ -121,8 +122,8 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 				$default,
 				array(
 					'method'		=> 'delete_entry_files',
-				'hook'			=> 'delete_entries_loop'
-					)
+					'hook'			=> 'delete_entries_loop'
+				)
 			),
 		);
 
@@ -132,8 +133,8 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 				upload_id int(10) unsigned NOT NULL auto_increment,
 				comment_id int(10) unsigned NOT NULL DEFAULT 0,
 				entry_id int(10) unsigned NOT NULL DEFAULT 0,
-				uploaded_file_path text NOT NULL DEFAULT '',
-				uploaded_file_url text NOT NULL DEFAULT '',
+				uploaded_file_path text,
+				uploaded_file_url text,
 				uploaded_file_name VARCHAR(255) DEFAULT '',
 				uploaded_file_original_name VARCHAR(255) DEFAULT '',
 				uploaded_file_type VARCHAR(255) DEFAULT '',
@@ -182,21 +183,21 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 			$query = '';
 
 			$query = ee()->db->insert_string('exp_upload_prefs', array(
-				'id'				=> '',
-				'site_id'			=> ee()->config->item('site_id'),
-				'name'				=> 'Comment Uploads Directory',
-				'server_path'		=> $this->upload_path,
-				'url'				=> $this->upload_dir,
-				'allowed_types'		=> 'all',
-				'max_size'			=> '',
-				'max_height'		=> '',
-				'max_width'			=> '',
-				'properties'		=> '',
-				'pre_format'		=> '',
-				'post_format'		=> '',
-				'file_properties'	=> '',
-				'file_pre_format'	=> '',
-				'file_post_format'	=> ''
+					// 'id'				=> '',
+					'site_id'			=> ee()->config->item('site_id'),
+					'name'				=> 'Comment Uploads Directory',
+					'server_path'		=> $this->upload_path,
+					'url'				=> $this->upload_dir,
+					'allowed_types'		=> 'all',
+					'max_size'			=> '',
+					'max_height'		=> '',
+					'max_width'			=> '',
+					'properties'		=> '',
+					'pre_format'		=> '',
+					'post_format'		=> '',
+					'file_properties'	=> '',
+					'file_pre_format'	=> '',
+					'file_post_format'	=> ''
 				)
 			);
 
@@ -213,7 +214,10 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 		ee()->db->query( $sql );
 
 
-		return parent::activate_extension();
+		foreach($this->hooks as $key => $hook)
+		{
+			ee()->db->insert('exp_extensions', $hook);
+		}
 	}
 	// END activate_extension()
 
@@ -232,7 +236,7 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 
 		ee()->db->query("DROP TABLE IF EXISTS exp_comments_uploads");
 
-		return parent::disable_extension();
+		ee()->db->query("DELETE FROM exp_extensions WHERE class = '".__CLASS__."'");
 
 	}
 	// END disable_extension()
@@ -256,6 +260,11 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 	// --------------------------------------------------------------------
 
 
+	public function settings_form()
+	{
+		return "This page intentionally left blank";
+	}
+
 	/**
 	 * Get upload preferences
 	 *
@@ -265,16 +274,16 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 	function get_upload_prefs($require_param = FALSE, $cp_call = FALSE)
 	{
 
-		if (isset($this->cache['upload_prefs']))
+		if (ee()->session->cache('comment_uploads', 'upload_prefs'))
 		{
 
-			$this->upload_pref = $this->cache['upload_prefs']['upload_pref'];
-			$this->upload_path = $this->cache['upload_prefs']['server_path'];
-			$this->upload_dir = $this->cache['upload_prefs']['url'];
-			$this->upload_types = $this->cache['upload_prefs']['allowed_types'];
-			$this->upload_max_size = $this->cache['upload_prefs']['max_size'];
-			$this->upload_max_height = $this->cache['upload_prefs']['max_height'];
-			$this->upload_max_width = $this->cache['upload_prefs']['max_width'];
+			$this->upload_pref = ee()->session->cache('comment_uploads', 'upload_prefs')['upload_pref'];
+			$this->upload_path = ee()->session->cache('comment_uploads', 'upload_prefs')['server_path'];
+			$this->upload_dir = ee()->session->cache('comment_uploads', 'upload_prefs')['url'];
+			$this->upload_types = ee()->session->cache('comment_uploads', 'upload_prefs')['allowed_types'];
+			$this->upload_max_size = ee()->session->cache('comment_uploads', 'upload_prefs')['max_size'];
+			$this->upload_max_height = ee()->session->cache('comment_uploads', 'upload_prefs')['max_height'];
+			$this->upload_max_width = ee()->session->cache('comment_uploads', 'upload_prefs')['max_width'];
 
 			return;
 		}
@@ -334,13 +343,16 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 		// Leave if we have what we need
 		if (isset($query) && $query->num_rows() > 0)
 		{
-			$this->upload_pref = $this->cache['upload_prefs']['upload_pref'] = $query->row('id');
-			$this->upload_path = $this->cache['upload_prefs']['server_path'] = $query->row('server_path');
-			$this->upload_dir = $this->cache['upload_prefs']['url'] = $query->row('url');
-			$this->upload_types = $this->cache['upload_prefs']['allowed_types'] = $query->row('allowed_types');
-			$this->upload_max_size = $this->cache['upload_prefs']['max_size'] = $query->row('max_size');
-			$this->upload_max_height = $this->cache['upload_prefs']['max_height'] = $query->row('max_height');
-			$this->upload_max_width = $this->cache['upload_prefs']['max_width'] = $query->row('max_width');
+			$cache_data = array();
+			$this->upload_pref = $cache_data['upload_pref'] = $query->row('id');
+			$this->upload_path = $cache_data['server_path'] = $query->row('server_path');
+			$this->upload_dir = $cache_data['url'] = $query->row('url');
+			$this->upload_types = $cache_data['allowed_types'] = $query->row('allowed_types');
+			$this->upload_max_size = $cache_data['max_size'] = $query->row('max_size');
+			$this->upload_max_height = $cache_data['max_height'] = $query->row('max_height');
+			$this->upload_max_width = $cache_data['max_width'] = $query->row('max_width');
+
+			ee()->session->set_cache('comment_uploads', 'upload_prefs', $cache_data);
 
 			return;
 		}
@@ -354,13 +366,16 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 
 		if ($query->num_rows() > 0)
 		{
-			$this->upload_pref = $this->cache['upload_prefs']['upload_pref'] = $query->row('id');
-			$this->upload_path = $this->cache['upload_prefs']['server_path'] = $query->row('server_path');
-			$this->upload_dir = $this->cache['upload_prefs']['url'] = $query->row('url');
-			$this->upload_types = $this->cache['upload_prefs']['allowed_types'] = $query->row('allowed_types');
-			$this->upload_max_size = $this->cache['upload_prefs']['max_size'] = $query->row('max_size');
-			$this->upload_max_height = $this->cache['upload_prefs']['max_height'] = $query->row('max_height');
-			$this->upload_max_width = $this->cache['upload_prefs']['max_width'] = $query->row('max_width');
+			$cache_data = array();
+			$this->upload_pref = $cache_data['upload_pref'] = $query->row('id');
+			$this->upload_path = $cache_data['server_path'] = $query->row('server_path');
+			$this->upload_dir = $cache_data['url'] = $query->row('url');
+			$this->upload_types = $cache_data['allowed_types'] = $query->row('allowed_types');
+			$this->upload_max_size = $cache_data['max_size'] = $query->row('max_size');
+			$this->upload_max_height = $cache_data['max_height'] = $query->row('max_height');
+			$this->upload_max_width = $cache_data['max_width'] = $query->row('max_width');
+
+			ee()->session->set_cache('comment_uploads', 'upload_prefs', $cache_data);
 
 			return;
 		}
@@ -373,15 +388,16 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 		}
 
 		// Still here? I guess you're stuck with the defaults
-		$this->upload_pref = $this->cache['upload_prefs']['upload_pref'] = 0;
-		$this->upload_path = $this->cache['upload_prefs']['server_path'] = str_replace('avatars/', 'uploads/', ee()->config->item('avatar_path')) . 'comments/';
-		$this->upload_dir = $this->cache['upload_prefs']['url'] = str_replace('avatars/', 'uploads/', ee()->config->item('avatar_url')) . 'comments/';
-		$this->upload_types = $this->cache['upload_prefs']['allowed_types'] = '*';
-		$this->upload_max_size = $this->cache['upload_prefs']['max_size'] = 0;
-		$this->upload_max_height = $this->cache['upload_prefs']['max_height'] = 0;
-		$this->upload_max_width = $this->cache['upload_prefs']['max_width'] = 0;
+		$cache_data = array();
+		$this->upload_pref = $cache_data['upload_pref'] = 0;
+		$this->upload_path = $cache_data['server_path'] = str_replace('avatars/', 'uploads/', ee()->config->item('avatar_path')) . 'comments/';
+		$this->upload_dir = $cache_data['url'] = str_replace('avatars/', 'uploads/', ee()->config->item('avatar_url')) . 'comments/';
+		$this->upload_types = $cache_data['allowed_types'] = '*';
+		$this->upload_max_size = $cache_data['max_size'] = 0;
+		$this->upload_max_height = $cache_data['max_height'] = 0;
+		$this->upload_max_width = $cache_data['max_width'] = 0;
 
-
+		ee()->session->set_cache('comment_uploads', 'upload_prefs', $cache_data);
 	}
 	/* END get_upload_prefs() */
 
@@ -439,6 +455,7 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 		ee()->upload->initialize($config);
 
 
+
 		// Our hands are a little tied. EE's upload class goes straight to
 		// the $_FILES array for its data. Well, Brent, write your own
 		// dang upload class. That, or get sneaky. I opt for the
@@ -485,7 +502,10 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 			$file_data = ee()->upload->data();
 
 			// Save the file info for later
-			$this->cache['files'][] = array(
+
+			$file_info = ee()->session->cache('comment_uploads', 'files') ? ee()->session->cache('comment_uploads', 'files') : array();
+
+			$file_info[] = array(
 				'path'		=> $file_data['file_path'],
 				'image_path'=> $file_data['full_path'],
 				'url'		=> $this->upload_dir.$file_data['file_name'],
@@ -498,6 +518,8 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 				'img_type'	=> $file_data['image_type'],
 				'size_str'	=> $file_data['image_size_str'],
 			);
+
+			ee()->session->set_cache('comment_uploads', 'files', $file_info);
 		}
 	}
 	/* END upload_files() */
@@ -511,7 +533,7 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 
 	function process_uploaded_files($data, $moderate, $id)
 	{
-		if ( ! isset($this->cache['files']) )
+		if ( ! ee()->session->cache('comment_uploads', 'files') )
 		{
 			return;
 		}
@@ -519,7 +541,8 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 		$success = array();
 
 		$number = 0;
-		foreach( $this->cache['files'] as $k => $filedata )
+
+		foreach( ee()->session->cache('comment_uploads', 'files') as $k => $filedata )
 		{
 			$number++;
 
@@ -539,7 +562,7 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 			{
 				// Add the file to the DB
 				$newdata = array(
-					'upload_id'						=> '',
+					// 'upload_id'						=> '',
 					'comment_id'					=> $id,
 					'entry_id'						=> $data['entry_id'],
 					'uploaded_file_path'			=> $filedata['path'].$name,
@@ -553,7 +576,7 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 					'uploaded_file_height'			=> $filedata['height'],
 					'uploaded_file_img_type'		=> $filedata['img_type'],
 					'uploaded_file_size_str'		=> $filedata['size_str']
-					);
+				);
 				ee()->db->query(ee()->db->insert_string('exp_comments_uploads', $newdata));
 			}
 		}
@@ -571,6 +594,8 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 
 	function modify_tagdata($tagdata = '', $data = array())
 	{
+		// ee()->load->library('logger');
+		// ee()->logger->developer('Parsing Comment ID: '.$data['comment_id']);
 
 		// No reason to go on if none of our variables is present
 		if ( ! strstr($tagdata, LD.'uploaded_files') )
@@ -582,7 +607,7 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 		}
 
 		// Set the cache, but do the query if on a multi-entry page with changing entry_ids
-		if ( ! isset($this->cache['data']) || ( isset($this->cache['data']['cu_entry_id']) && $this->cache['data']['cu_entry_id'] != ee()->db->escape_str($data['entry_id']) ) )
+		if ( ! ee()->session->cache('comment_uploads', 'data') || ( isset(ee()->session->cache('comment_uploads', 'data')['cu_entry_id']) && ee()->session->cache('comment_uploads', 'data')['cu_entry_id'] != ee()->db->escape_str($data['entry_id']) ) )
 		{
 			$sql = "/* Comment Uploads modify_tagdata */
 				SELECT *
@@ -591,21 +616,27 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 				";
 
 			$query = ee()->db->query( $sql );
-			foreach ( $query->result_array() as $row )
+
+			if($query->num_rows() > 0)
 			{
-				$this->cache['data'][$row['comment_id']][]	= $row;
-				$this->cache['data']['cu_entry_id']			= ee()->db->escape_str($data['entry_id']);
+				foreach ( $query->result_array() as $row )
+				{
+					$cache_data[$row['comment_id']][]	= $row;
+					$cache_data['cu_entry_id']			= ee()->db->escape_str($data['entry_id']);
+				}
+
+				ee()->session->set_cache('comment_uploads', 'data', $cache_data);
 			}
 		}
 
 		$tagdata = $this->_fetch_last_call_data( $tagdata );
-		$files = (isset($this->cache['data'][$data['comment_id']])) ? $this->cache['data'][$data['comment_id']] : array();
+		$files = (isset(ee()->session->cache('comment_uploads', 'data')[$data['comment_id']])) ? ee()->session->cache('comment_uploads', 'data')[$data['comment_id']] : array();
 
 		$count = ($files) ? count($files) : 0;
 		$uploaded_files = ($count > 0) ? TRUE : FALSE;
 
 		// Delete files
-		$can_delete = $this->_user_can_delete_files($data['author_id'], $data[$this->sc->db->channel_id]);
+		$can_delete = $this->_user_can_delete_files($data['author_id'], $data['channel_id']);
 		$deleted_file_data = array();
 		$file_deleted = FALSE;
 		$num_files_deleted = 0;
@@ -633,13 +664,13 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 		$count -= $num_files_deleted;
 
 		$cvars = array(
-						'uploaded_files_count'			=> $count, // deprecated
-						'uploaded_files_total'			=> $count,
-						'uploaded_file_user_can_delete'	=> $can_delete,
-						'uploaded_files'				=> $uploaded_files,
-						'deleted_files'					=> $file_deleted,
-						'deleted_files_count'			=> $num_files_deleted
-						);
+			'uploaded_files_count'			=> $count, // deprecated
+			'uploaded_files_total'			=> $count,
+			'uploaded_file_user_can_delete'	=> $can_delete,
+			'uploaded_files'				=> $uploaded_files,
+			'deleted_files'					=> $file_deleted,
+			'deleted_files_count'			=> $num_files_deleted
+		);
 
 		$tagdata = ee()->functions->prep_conditionals($tagdata, $cvars);
 		$tagdata = ee()->TMPL->swap_var_single('uploaded_files_count', $count, $tagdata); // deprecated
@@ -647,9 +678,9 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 
 
 		// Does the {uploaded_files}{/uploaded_files} var pair exist?
-		if ( $count > 0 && strstr($tagdata, LD.T_SLASH.'uploaded_files'.RD) )
+		if ( $count > 0 && strstr($tagdata, LD."/".'uploaded_files'.RD) )
 		{
-			if ( preg_match('/'.LD.'uploaded_files'.RD.'(.+?)'.LD.preg_quote(T_SLASH,'/').'uploaded_files'.RD.'/s', $tagdata, $match) )
+			if ( preg_match('/'.LD.'uploaded_files'.RD.'(.+?)'.LD.preg_quote("/",'/').'uploaded_files'.RD.'/s', $tagdata, $match) )
 			{
 				$temp_tagdata = '';
 				$fcount = 0;
@@ -677,15 +708,15 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 		}
 		elseif ( $count == 0 )
 		{
-			$tagdata = preg_replace('/'.LD.'uploaded_files'.RD.'(.+?)'.LD.preg_quote(T_SLASH,'/').'uploaded_files'.RD.'/s', '', $tagdata);
+			$tagdata = preg_replace('/'.LD.'uploaded_files'.RD.'(.+?)'.LD.preg_quote("/",'/').'uploaded_files'.RD.'/s', '', $tagdata);
 		}
 
 		// Does the {deleted_files}{/deleted_files} var pair exist?
-		if ( $num_files_deleted > 0 && strstr($tagdata, LD.T_SLASH.'deleted_files'.RD) )
+		if ( $num_files_deleted > 0 && strstr($tagdata, LD."/".'deleted_files'.RD) )
 		{
 			$total = count($deleted_file_data);
 			$tagdata = ee()->TMPL->swap_var_single('deleted_files_total', $total, $tagdata);
-			if ( preg_match('/'.LD.'deleted_files'.RD.'(.+?)'.LD.preg_quote(T_SLASH,'/').'deleted_files'.RD.'/s', $tagdata, $match) )
+			if ( preg_match('/'.LD.'deleted_files'.RD.'(.+?)'.LD.preg_quote("/",'/').'deleted_files'.RD.'/s', $tagdata, $match) )
 			{
 				$temp_tagdata = '';
 				$fcount = 0;
@@ -710,7 +741,7 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 		}
 		elseif ( $count == 0 )
 		{
-			$tagdata = preg_replace('/'.LD.'deleted_files'.RD.'(.+?)'.LD.preg_quote(T_SLASH,'/').'deleted_files'.RD.'/s', '', $tagdata);
+			$tagdata = preg_replace('/'.LD.'deleted_files'.RD.'(.+?)'.LD.preg_quote("/",'/').'deleted_files'.RD.'/s', '', $tagdata);
 		}
 
 		return $tagdata;
@@ -774,7 +805,7 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 			return FALSE;
 		}
 
-		if ( ! isset($this->cache['delete']) )
+		if ( ! ee()->session->cache('comment_uploads', 'delete') )
 		{
 			if ( $file = ee()->TMPL->fetch_param('delete_uploaded_file') )
 			{
@@ -787,13 +818,23 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 				{
 					foreach ($query->result_array() as $row)
 					{
-						$this->cache['delete']['upload_id'][$row['upload_id']] = $row;
-						$this->cache['delete']['comment_id'][$row['comment_id']][$row['upload_id']] = $row;
+						$cached_data = ee()->session->cache('comment_uploads', 'delete') ? ee()->session->cache('comment_uploads', 'delete') : array(
+							'upload_id' => array(),
+							'comment_id' => array(),
+						);
+
+						$cached_data['upload_id'][$row['upload_id']] = $row;
+						$cached_data['comment_id'][$row['comment_id']][$row['upload_id']] = $row;
+
+						ee()->session->set_cache('comment_uploads', 'delete', $cached_data);
+
+						// ee()->session->set_cache('comment_uploads', 'delete', $cached_data)['upload_id'][$row['upload_id']] = $row;
+						// ee()->session->set_cache('comment_uploads', 'delete', $cached_data)['comment_id'][$row['comment_id']][$row['upload_id']] = $row;
 					}
 				}
 				else
 				{
-					$this->cache['delete'] = array();
+					ee()->session->set_cache('comment_uploads', 'delete', array());
 				}
 			}
 			elseif ( $comment = ee()->TMPL->fetch_param('delete_files_from_comment') )
@@ -801,29 +842,39 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 				$query = ee()->db->query('	SELECT *
 										FROM exp_comments_uploads
 										WHERE comment_id = '. ee()->db->escape_str($comment)
-										);
+				);
 				if ($query->num_rows() > 0)
 				{
 					foreach ($query->result_array() as $row)
 					{
-						$this->cache['delete']['upload_id'][$row['upload_id']] = $row;
-						$this->cache['delete']['comment_id'][$row['comment_id']][$row['upload_id']] = $row;
+						$cached_data = ee()->session->cache('comment_uploads', 'delete') ? ee()->session->cache('comment_uploads', 'delete') : array(
+							'upload_id' => array(),
+							'comment_id' => array(),
+						);
+
+						$cached_data['upload_id'][$row['upload_id']] = $row;
+						$cached_data['comment_id'][$row['comment_id']][$row['upload_id']] = $row;
+
+						ee()->session->set_cache('comment_uploads', 'delete', $cached_data);
+
+						// ee()->session->set_cache('comment_uploads', 'delete')['upload_id'][$row['upload_id']] = $row;
+						// ee()->session->set_cache('comment_uploads', 'delete')['comment_id'][$row['comment_id']][$row['upload_id']] = $row;
 					}
 				}
 				else
 				{
-					$this->cache['delete'] = array();
+					ee()->session->set_cache('comment_uploads', 'delete', array());
 				}
 			}
 		}
 
 		if ($comment_id !== FALSE)
 		{
-			return (isset($this->cache['delete']['comment_id'][$comment_id])) ? TRUE : FALSE;
+			return (isset(ee()->session->cache('comment_uploads', 'delete')['comment_id'][$comment_id])) ? TRUE : FALSE;
 		}
 		elseif ($upload_id !== FALSE)
 		{
-			return (isset($this->cache['delete']['upload_id'][$upload_id])) ? TRUE : FALSE;
+			return (isset(ee()->session->cache('comment_uploads', 'delete')['upload_id'][$upload_id])) ? TRUE : FALSE;
 		}
 	}
 	/* END _get_files_to_delete() */
@@ -929,18 +980,18 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 		else
 		{
 			$id = ee()->TMPL->fetch_param('delete_files_from_comment');
-			if (! isset($this->cache['delete']))
+			if (! ee()->session->cache('comment_uploads', 'delete'))
 			{
 				$this->_get_files_to_delete();
 			}
 
-			if (! isset($this->cache['delete']['comment_id'][$id]))
+			if (! isset(ee()->session->cache('comment_uploads', 'delete')['comment_id'][$id]))
 			{
 				return FALSE;
 			}
 
 			// Dump 'em
-			foreach ($this->cache['delete']['comment_id'][$id] as $row)
+			foreach (ee()->session->cache('comment_uploads', 'delete')['comment_id'][$id] as $row)
 			{
 				// First check to ensure the file exists
 				if (is_file($row['uploaded_file_path']))
@@ -949,7 +1000,7 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 				}
 				$deleted_file_data[$row['upload_id']] = $row;
 			}
-			unset($this->cache['delete']['comment_id'][$id]);
+			unset(ee()->session->cache('comment_uploads', 'delete')['comment_id'][$id]);
 
 			// Delete from the DB
 			ee()->db->query('DELETE FROM exp_comments_uploads WHERE comment_id IN ('. ee()->db->escape_str($id) .')');
@@ -976,7 +1027,7 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 			SELECT uploaded_file_path
 			FROM exp_comments_uploads
 			WHERE entry_id = '. ee()->db->escape_str($entry_id)
-			);
+		);
 
 		if ($query->num_rows() > 0)
 		{
@@ -1008,22 +1059,22 @@ class Comment_uploads_ext extends Extension_builder_comment_uploads
 			return FALSE;
 		}
 
-		if (! isset($this->cache['delete']))
+		if (! ee()->session->cache('comment_uploads', 'delete'))
 		{
 			$this->_get_files_to_delete();
 		}
 
-		if (isset($this->cache['delete']['comment_id'][$comment_id]) && isset($this->cache['delete']['upload_id'][$file]))
+		if (isset(ee()->session->cache('comment_uploads', 'delete')['comment_id'][$comment_id]) && isset(ee()->session->cache('comment_uploads', 'delete')['upload_id'][$file]))
 		{
-			$deleted_file_data[$this->cache['delete']['upload_id'][$file]['upload_id']] = $this->cache['delete']['upload_id'][$file];
+			$deleted_file_data[ee()->session->cache('comment_uploads', 'delete')['upload_id'][$file]['upload_id']] = ee()->session->cache('comment_uploads', 'delete')['upload_id'][$file];
 
 			// Check to ensure the file exists
-			if (is_file($this->cache['delete']['upload_id'][$file]['uploaded_file_path']))
+			if (is_file(ee()->session->cache('comment_uploads', 'delete')['upload_id'][$file]['uploaded_file_path']))
 			{
-				unlink($this->cache['delete']['upload_id'][$file]['uploaded_file_path']);
+				unlink(ee()->session->cache('comment_uploads', 'delete')['upload_id'][$file]['uploaded_file_path']);
 			}
-			unset($this->cache['delete']['comment_id'][$comment_id]);
-			unset($this->cache['delete']['upload_id'][$file]);
+			unset(ee()->session->cache('comment_uploads', 'delete')['comment_id'][$comment_id]);
+			unset(ee()->session->cache('comment_uploads', 'delete')['upload_id'][$file]);
 
 			ee()->db->query('DELETE FROM exp_comments_uploads WHERE upload_id = '. ee()->db->escape_str($file));
 

@@ -8,7 +8,7 @@
  * @copyright	Copyright (c) 2008-2020, Solspace, Inc.
  * @link		https://solspace.com/expressionengine/legacy/comment-uploads
  * @license		https://docs.solspace.com/license-agreement/
- * @version		2.1.0
+ * @version		3.0.0
  */
 
 $lang = array(

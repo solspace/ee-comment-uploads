@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>		<html class="no-js ie6"> <![endif]-->
+<!--[if IE 7]>			<html class="no-js ie7"> <![endif]-->
+<!--[if IE 8]>			<html class="no-js ie8"> <![endif]-->
+<!--[if IE 8]>			<html class="no-js ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->	<html class="no-js"> <!--<![endif]-->
+	<head lang="en">
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>Comment Form | Comment Uploads | Solspace Addon Documentation</title>
+		<meta name="description" content="" />
+		<meta name="copyright" content="(c) 2010 Copyright content: Copyright design: Solspace, Inc."/>
+		<meta name="viewport" content="width=device-width" />
+		<link rel="stylesheet" href="assets/css/normalize.css" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" type="text/css" href="assets/fancybox/jquery.fancybox-1.3.4.css" />
+		<link href="assets/syntaxhighlighter/styles/shCore.css" rel="stylesheet" type="text/css" />
+		<link href="assets/syntaxhighlighter/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+		<script src="assets/js/modernizr.min.js"></script>
+	</head>
+	<body>
+		<!--[if lt IE 8]>
+			<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+		<![endif]-->
+
+		<header>
+			<div class="header-inner">
+				<div class="logo">
+					<img src="assets/images/logo.png" />
+				</div>
+
+				<div class="bread_crumbs">
+					<ul class="crumbs">
+						<li class="first"><a href="index.html">Comment Uploads</a></li>
+						<li>Comment Form</li>
+					</ul>
+				</div>
+			</div>
+		</header>
+
+		<div class="content-wrapper">
+			<nav class="toc">
+				<ul>
+<li><a href="http://www.solspace.com/software/detail/comment_uploads/">More Info | Purchase</a></li>
+<li><a href="change_log.html">Change Log</a></li>
+<li><a href="install_update.html">Install / Update</a></li>
+<li><a href="control_panel.html">Control Panel</a></li>
+<li class="template_tags"><h3>Template Tags</h3>
+
+<ul>
+<li><a href="comment_entries.html">Comment Entries</a></li>
+<li class="current"><a href="comment_form.html">Comment Form</a></li>
+<li><a href="deleting_uploads.html">Deleting Uploads</a></li>
+</ul></li>
+<li><h3>Requirements</h3><div class="requirements">
+
+<ul>
+<li>EE 2.5.x - 2.8.x</li>
+<li>PHP 5.2+</li>
+<li>MySQL 5+</li>
+</ul></div></li>
+</ul>
+			</nav>
+
+			<article class="docs">
+				<p>The Comments Upload extension integrates with the native <a href="http://ellislab.com/expressionengine/user-guide/add-ons/comment/index.html#comment-submission-form">EE Comments
+Submission Form</a>. It allows you to add an additional parameter and a form field which enables the file uploading functionality.</p>
+
+<pre class="brush: html;">{exp:comment:form} content {/exp:comment:form} </pre>
+
+<ul>
+<li><a href="#parameters">Parameters</a></li>
+<li><a href="#form_fields">Form Fields</a></li>
+<li><a href="#examples">Examples</a></li>
+</ul>
+
+<p><a name="parameters"></a></p>
+
+<h2>Parameters</h2>
+
+<p>The following parameters become available with the <em>Comment Uploads</em>
+extension enabled:</p>
+
+<ul>
+<li><a href="#enable_uploads">enable_uploads</a></li>
+<li><a href="#upload_dir_id">upload_dir_id</a></li>
+<li><a href="#upload_dir_name">upload_dir_name</a></li>
+</ul>
+
+<p><a name="enable_uploads"></a></p>
+
+<h3>enable_uploads=</h3>
+
+<pre class="brush: html;">enable_uploads="y" </pre>
+
+<p>This parameter simply turns on comment uploading for that comment form.
+Specify <strong>y</strong> to enable.</p>
+
+<p><a name="upload_dir_id"></a></p>
+
+<h3>upload_dir_id=</h3>
+
+<pre class="brush: html;">upload_dir_id="3" </pre>
+
+<p>This parameter allows you to specify the ID of a <a href="http://ellislab.com/expressionengine/user-guide/cp/content/files/file_upload_preferences.html">File Upload
+preference</a> created in the CP. Alternatively, you can use the <a href="#upload_dir_name">upload_dir_name</a> parameter. If neither of these are
+specified, Comment Uploads will upload the files to the default <strong>./images/uploads/comments</strong> directory.</p>
+
+<p><a name="upload_dir_name"></a></p>
+
+<h3>upload_dir_name=</h3>
+
+<pre class="brush: html;">upload_dir_name="Comment Uploads Directory" </pre>
+
+<p>This parameter allows you to specify the name of a <a href="http://ellislab.com/expressionengine/user-guide/cp/content/files/file_upload_preferences.html">File Upload
+preference</a> created in the CP. Alternatively, you can use the <a href="#upload_dir_id">upload_dir_id</a> parameter. If neither of these are
+specified, Comment Uploads will upload the files to the default
+<strong>./images/uploads/comments</strong> directory.</p>
+
+<p><a name="form_fields"></a></p>
+
+<h2>Form Fields</h2>
+
+<p>The following form fields become available with the <em>Comment Uploads</em>
+extension enabled:</p>
+
+<ul>
+<li><a href="#userfile">userfile[]</a></li>
+</ul>
+
+<p><a name="userfile"></a></p>
+
+<h3>userfile[]</h3>
+
+<pre class="brush: html;">&lt;input type="file" name="userfile[]" /&gt; </pre>
+
+<p>This form field is where the user would specify a file from their
+computer to upload to their comment. Be sure to specify <em>userfile[]</em> (with
+the <strong>[]</strong>) to allow multiple file uploads at a time.</p>
+
+<p><strong>NOTE:</strong> all successfully uploaded files will be renamed to the entry
+ID, comment ID, and a numeric date value of the current time (ex:
+<strong>422-75-20090921112436-1.pdf</strong>)</p>
+
+<p><a name="examples"></a></p>
+
+<h2>Examples</h2>
+
+<p>You would normally just add the above parameter and form field to your
+existing Comment Form and it should work right away:</p>
+
+<pre class="brush: html;">{exp:comment:form
+    preview="{my_template_group}/comment_preview"
+    enable_uploads="y"
+    upload_dir_name="Comment Uploads Directory"
+}
+
+    {if logged_out}
+        &lt;p&gt;Name:&lt;br /&gt;&lt;input type="text" name="name" value="{name}" size="50" /&gt;&lt;/p&gt;
+        &lt;p&gt;Email:&lt;br /&gt;&lt;input type="text" name="email" value="{email}" size="50" /&gt;&lt;/p&gt;
+        &lt;p&gt;Location:&lt;br /&gt;&lt;input type="text" name="location" value="{location}" size="50" /&gt;&lt;/p&gt;
+        &lt;p&gt;URL:&lt;br /&gt;&lt;input type="text" name="url" value="{url}" size="50" /&gt;&lt;/p&gt;
+    {/if}
+
+        &lt;p&gt;&lt;a href="{path={my_template_group}/smileys}" onclick="window.open(this.href, '_blank', 'width=400,height=440');return false;" onkeypress="this.onclick()"&gt;Smileys&lt;/a&gt;&lt;/p&gt;
+
+    &lt;!-- START Comment Uploads code --&gt;
+        &lt;p&gt;Attach a File:&lt;br /&gt;&lt;input type="file" name="userfile[]" /&gt;&lt;/p&gt;
+    &lt;!-- END Comment Uploads code --&gt;
+
+        &lt;p&gt;&lt;textarea name="comment" cols="50" rows="12"&gt;{comment}&lt;/textarea&gt;&lt;/p&gt;
+
+    {if logged_out}
+        &lt;p&gt;&lt;input type="checkbox" name="save_info" value="yes" {save_info} /&gt; Remember my personal information&lt;/p&gt;
+    {/if}
+        &lt;p&gt;&lt;input type="checkbox" name="notify_me" value="yes" {notify_me} /&gt; Notify me of follow-up comments?&lt;/p&gt;
+
+    {if captcha}
+        &lt;p&gt;Submit the word you see below:&lt;/p&gt;
+        &lt;p&gt;{captcha}&lt;br /&gt;&lt;input type="text" name="captcha" value="" size="20" maxlength="20" style="width:140px;" /&gt;&lt;/p&gt;
+    {/if}
+
+        &lt;p&gt;&lt;input type="submit" name="submit" value="Submit" /&gt;
+        &lt;input type="submit" name="preview" value="Preview" /&gt;&lt;/p&gt;
+
+{/exp:comment:form}
+</pre>
+			</article>
+		</div>
+
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+		<script src="assets/syntaxhighlighter/scripts/shCore.js"></script>
+		<script src="assets/syntaxhighlighter/scripts/shAutoloader.js"></script>
+		<script src="assets/js/main.js"></script>
+	</body>
+</html>

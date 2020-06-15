@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>		<html class="no-js ie6"> <![endif]-->
+<!--[if IE 7]>			<html class="no-js ie7"> <![endif]-->
+<!--[if IE 8]>			<html class="no-js ie8"> <![endif]-->
+<!--[if IE 8]>			<html class="no-js ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->	<html class="no-js"> <!--<![endif]-->
+	<head lang="en">
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>Deleting Uploads | Comment Uploads | Solspace Addon Documentation</title>
+		<meta name="description" content="" />
+		<meta name="copyright" content="(c) 2010 Copyright content: Copyright design: Solspace, Inc."/>
+		<meta name="viewport" content="width=device-width" />
+		<link rel="stylesheet" href="assets/css/normalize.css" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" type="text/css" href="assets/fancybox/jquery.fancybox-1.3.4.css" />
+		<link href="assets/syntaxhighlighter/styles/shCore.css" rel="stylesheet" type="text/css" />
+		<link href="assets/syntaxhighlighter/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+		<script src="assets/js/modernizr.min.js"></script>
+	</head>
+	<body>
+		<!--[if lt IE 8]>
+			<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+		<![endif]-->
+
+		<header>
+			<div class="header-inner">
+				<div class="logo">
+					<img src="assets/images/logo.png" />
+				</div>
+
+				<div class="bread_crumbs">
+					<ul class="crumbs">
+						<li class="first"><a href="index.html">Comment Uploads</a></li>
+						<li>Deleting Uploads</li>
+					</ul>
+				</div>
+			</div>
+		</header>
+
+		<div class="content-wrapper">
+			<nav class="toc">
+				<ul>
+<li><a href="http://www.solspace.com/software/detail/comment_uploads/">More Info | Purchase</a></li>
+<li><a href="change_log.html">Change Log</a></li>
+<li><a href="install_update.html">Install / Update</a></li>
+<li><a href="control_panel.html">Control Panel</a></li>
+<li class="template_tags"><h3>Template Tags</h3>
+
+<ul>
+<li><a href="comment_entries.html">Comment Entries</a></li>
+<li><a href="comment_form.html">Comment Form</a></li>
+<li class="current"><a href="deleting_uploads.html">Deleting Uploads</a></li>
+</ul></li>
+<li><h3>Requirements</h3><div class="requirements">
+
+<ul>
+<li>EE 2.5.x - 2.8.x</li>
+<li>PHP 5.2+</li>
+<li>MySQL 5+</li>
+</ul></div></li>
+</ul>
+			</nav>
+
+			<article class="docs">
+				<p>The files your users upload to comments can be deleted via the front
+end. Since, the Comments Upload extension integrates with the native <a href="http://ellislab.com/expressionengine/user-guide/add-ons/comment/index.html#comment-entries-tag">EE Comments Entries</a> tag, we've based delete functionality on an additional set of parameters and variables for use with the EE Comment Entries loop.</p>
+
+<p><strong>NOTE:</strong> The Delete functionality is dependant on several native EE
+permissions:</p>
+
+<ul>
+<li><em>Members of a Group that has Can Edit All Comments</em> set to <strong>Yes</strong></li>
+<li><em>Members of a Group that has Can Moderate Comments</em> set to <strong>Yes</strong></li>
+<li><em>Author of the Comment WHEN Can Edit Own Comments</em> set to <strong>Yes</strong></li>
+<li>And of course, <strong>Super Admins</strong></li>
+</ul>
+
+<pre class="brush: html;">{exp:comment:entries} content {/exp:comment:entries} </pre>
+
+<ul>
+<li><a href="#parameters">Parameters</a></li>
+<li><a href="#variables">Variables</a></li>
+<li><a href="#variable_pairs">Variable Pairs</a></li>
+<li><a href="#conditionals">Conditionals</a></li>
+<li><a href="#examples">Examples</a></li>
+</ul>
+
+<p><a name="parameters"></a></p>
+
+<h2>Parameters</h2>
+
+<p>The following parameters become available with the <em>Comment Uploads</em>
+extension enabled:</p>
+
+<ul>
+<li><a href="#delete_files_from_comment">delete_files_from_comment</a></li>
+<li><a href="#delete_uploaded_file">delete_uploaded_file</a></li>
+</ul>
+
+<p><a name="delete_files_from_comment"></a></p>
+
+<h3>delete_files_from_comment=</h3>
+
+<pre class="brush: html;">delete_files_from_comment="{segment_4} </pre>
+
+<p>This parameter will accept the ID of a comment and delete ALL uploaded
+files from the comment and the server. You would typically use the
+<strong>{segment_&#35;}</strong> variable for this to dynamically pull the comment ID from
+the URI.</p>
+
+<p><a name="delete_uploaded_file"></a></p>
+
+<h3>delete_uploaded_file=</h3>
+
+<pre class="brush: html;">delete_uploaded_file="{segment_4} </pre>
+
+<p>This parameter will accept the ID of the uploaded file and delete it
+from the comment and the server. You would typically use the
+<strong>{segment_&#35;}</strong> variable for this to dynamically pull the file ID from the
+URI.</p>
+
+<p><a name="variables"></a></p>
+
+<h2>Variables</h2>
+
+<p>The following variables become available with the <em>Comment Uploads</em>
+extension enabled WHEN a file(s) has just been deleted:</p>
+
+<ul>
+<li><a href="#deleted_file_count">deleted_file_count</a></li>
+<li><a href="#deleted_file_height">deleted_file_height</a></li>
+<li><a href="#deleted_file_id">deleted_file_id</a></li>
+<li><a href="#deleted_file_img_type">deleted_file_img_type</a></li>
+<li><a href="#deleted_file_name">deleted_file_name</a></li>
+<li><a href="#deleted_file_original_name">deleted_file_original_name</a></li>
+<li><a href="#deleted_file_size">deleted_file_size</a></li>
+<li><a href="#deleted_file_size_kb">deleted_file_size_kb</a></li>
+<li><a href="#deleted_file_size_mb">deleted_file_size_mb</a></li>
+<li><a href="#deleted_file_type">deleted_file_type</a></li>
+<li><a href="#deleted_file_url">deleted_file_url</a></li>
+<li><a href="#deleted_file_width">deleted_file_width</a></li>
+<li><a href="#deleted_files_total">deleted_files_total</a></li>
+</ul>
+
+<p><a name="deleted_file_count"></a></p>
+
+<h3>deleted_file_count</h3>
+
+<pre class="brush: html;">{deleted_file_count} </pre>
+
+<p>This variable outputs the position number of the file within the deleted
+files. For use only with the <a href="#deleted_files">deleted_files</a> variable
+pair.</p>
+
+<p><a name="deleted_file_height"></a></p>
+
+<h3>deleted_file_height</h3>
+
+<pre class="brush: html;">{deleted_file_height} </pre>
+
+<p>This variable outputs the height of the deleted file, if it was an image
+file (ex: <strong>100</strong>). For use only with the <a href="#deleted_files">deleted_files</a>
+variable pair.</p>
+
+<p><a name="deleted_file_id"></a></p>
+
+<h3>deleted_file_id</h3>
+
+<pre class="brush: html;">{deleted_file_id} </pre>
+
+<p>This variable outputs the unique ID of the file that has been deleted
+(ex: <strong>36</strong>). For use only with the <a href="#deleted_files">deleted_files</a>
+variable pair.</p>
+
+<p><a name="deleted_file_img_type"></a></p>
+
+<h3>deleted_file_img_type</h3>
+
+<pre class="brush: html;">{deleted_file_img_type} </pre>
+
+<p>This variable outputs the numerical type of image the file was, if it
+was an image file (<em>.JPG</em> is <strong>1</strong>, <em>.GIF</em> is <strong>2</strong>, and <em>.PNG</em> is <strong>3</strong>). For use only with the <a href="#deleted_files">deleted_files</a> variable pair.</p>
+
+<p><a name="deleted_file_name"></a></p>
+
+<h3>deleted_file_name</h3>
+
+<pre class="brush: html;">{deleted_file_name} </pre>
+
+<p>This variable outputs the name (and extension) of the file that has been
+deleted (ex: <strong>125-356-20091113111610-filename.pdf</strong>). For use only with the
+<a href="#deleted_files">deleted_files</a> variable pair.</p>
+
+<p><a name="deleted_file_original_name"></a></p>
+
+<h3>deleted_file_original_name</h3>
+
+<pre class="brush: html;">{deleted_file_original_name} </pre>
+
+<p>This variable outputs the original name (and extension) of the file that
+has been deleted (ex: <strong>filename.pdf</strong>). For use only with the
+<a href="#deleted_files">deleted_files</a> variable pair.</p>
+
+<p><a name="deleted_file_size"></a></p>
+
+<h3>deleted_file_size</h3>
+
+<pre class="brush: html;">{deleted_file_size} </pre>
+
+<p>This variable outputs the size in bytes of the file that has been
+deleted (ex: <strong>96809</strong>). For use only with the
+<a href="#deleted_files">deleted_files</a> variable pair.</p>
+
+<p><a name="deleted_file_size_kb"></a></p>
+
+<h3>deleted_file_size_kb</h3>
+
+<pre class="brush: html;">{deleted_file_size_kb} </pre>
+
+<p>This variable outputs the size in kilobytes of the file that has been
+deleted (ex: <strong>94.54</strong>). For use only with the
+<a href="#deleted_files">deleted_files</a> variable pair.</p>
+
+<p><a name="deleted_file_size_mb"></a></p>
+
+<h3>deleted_file_size_mb</h3>
+
+<pre class="brush: html;">{deleted_file_size_mb} </pre>
+
+<p>This variable outputs the size in megabytes of the file that has been
+deleted (ex: <strong>0.09</strong>). For use only with the
+<a href="#deleted_files">deleted_files</a> variable pair.</p>
+
+<p><a name="deleted_file_type"></a></p>
+
+<h3>deleted_file_type</h3>
+
+<pre class="brush: html;">{deleted_file_type} </pre>
+
+<p>This variable outputs the type of the file that has been deleted (ex:
+<strong>image/pjpeg</strong> or <strong>application/pdf</strong>). For use only with the
+<a href="#deleted_files">deleted_files</a> variable pair.</p>
+
+<p><a name="deleted_file_url"></a></p>
+
+<h3>deleted_file_url</h3>
+
+<pre class="brush: html;">{deleted_file_url} </pre>
+
+<p>This variable outputs the complete URL path of the file that has been
+deleted (ex: <strong>http://www.yoursite.com/images/uploads/comments/filename.jpg</strong>). For use only with the <a href="#deleted_files">deleted_files</a> variable pair.</p>
+
+<p><a name="deleted_file_width"></a></p>
+
+<h3>deleted_file_width</h3>
+
+<pre class="brush: html;">{deleted_file_width} </pre>
+
+<p>This variable outputs the width of the deleted file, if it was an image
+file (ex: <strong>150</strong>). For use only with the <a href="#deleted_files">deleted_files</a>
+variable pair.</p>
+
+<p><a name="deleted_files_total"></a></p>
+
+<h3>deleted_files_total</h3>
+
+<pre class="brush: html;">{deleted_files_total} </pre>
+
+<p>This variable outputs the total number of deleted files for a particular
+comment.</p>
+
+<p><a name="variable_pairs"></a></p>
+
+<h2>Variable Pairs</h2>
+
+<p>The following variable pair becomes available with the <em>Comment Uploads</em>
+extension enabled:</p>
+
+<ul>
+<li><a href="#uploaded_files">uploaded_files</a></li>
+</ul>
+
+<p><a name="uploaded_files"></a></p>
+
+<h3>uploaded_files</h3>
+
+<pre class="brush: html;">{uploaded_files} stuff {/uploaded_files} </pre>
+
+<p>This variable pair allows you to display uploaded files and control the
+formatting for them within the <em>Comment:Entries</em> loop.</p>
+
+<p><strong>NOTE:</strong> This variable pair is required, should you wish to display any
+file-specific variables.</p>
+
+<p><a name="conditionals"></a></p>
+
+<h2>Conditionals</h2>
+
+<p>The following conditionals become available with the <em>Comment Uploads</em>
+extension enabled:</p>
+
+<ul>
+<li><a href="#deleted_file_is_image">if deleted_file_is_image</a></li>
+<li><a href="#deleted_files">if deleted_files</a></li>
+<li><a href="#uploaded_file_user_can_delete">if uploaded_file_user_can_delete</a></li>
+</ul>
+
+<p><a name="deleted_file_is_image"></a></p>
+
+<h3>if deleted_file_is_image</h3>
+
+<pre class="brush: html;">{if deleted_file_is_image} image content {if:else} non-image content {/if} </pre>
+
+<p>This conditional allows you to determine if the file deleted was an
+image or not. If the file was an image, you can then use standard image
+formatting to display the file as an image.</p>
+
+<p><a name="deleted_files"></a></p>
+
+<h3>if deleted_files</h3>
+
+<pre class="brush: html;">{if deleted_files} stuff {/if} </pre>
+
+<p>This conditional displays its contents if any files were deleted from a
+given comment.</p>
+
+<p><a name="uploaded_file_user_can_delete"></a></p>
+
+<h3>if uploaded_file_user_can_delete</h3>
+
+<pre class="brush: html;">{if uploaded_file_user_can_delete} stuff {/if} </pre>
+
+<p>This conditional evaluates to TRUE if the currently logged in user has
+the <a href="#summary">necessary permissions</a> to delete the file(s).</p>
+
+<p><a name="examples"></a></p>
+
+<h2>Examples</h2>
+
+<p>It’s up to you how you wish to handle deleting of files. There’s
+basically 2 ways:</p>
+
+<h3>Update Your Current Comments Page</h3>
+
+<p>This is perhaps the simplest way to do it. Using the similar setup from
+displaying Uploaded Files in the <a href="comment_entries.html">Comment Entries</a>
+example, you would just add this code:</p>
+
+<pre class="brush: html;">{exp:comment:entries
+    sort="asc"
+    limit="20"
+    {if segment_3 == "delete_file"}
+        delete_uploaded_file="{segment_4}"
+    {/if}
+    {if segment_3 == "delete_comment_files"}
+        delete_files_from_comment="{segment_4}"
+    {/if}
+}
+
+    &lt;div class="comment"&gt;
+        &lt;p&gt;Posted by {name} on {comment_date format="%Y %m %d"}&lt;/p&gt;
+        &lt;p&gt;{comment}&lt;/p&gt;
+
+    &lt;!-- START Comment Uploads code --&gt;
+    {if uploaded_files}
+        &lt;p&gt;{uploaded_files_total} file(s) are attached to this comment:&lt;/p&gt;
+        {if uploaded_file_user_can_delete}
+            &lt;p&gt;
+                &lt;a href="{site_url}/{segment_1}/{segment_2}/delete_comment_files/{comment_id}/"&gt;
+                Delete ALL files for this Comment?
+                &lt;/a&gt;
+            &lt;/p&gt;
+        {/if}
+        {uploaded_files}
+            {if uploaded_file_is_image}
+                &lt;p&gt;&lt;a href="{uploaded_file_url}"&gt;&lt;img src="{uploaded_file_url}" height="{uploaded_file_height}" width="{uploaded_file_width}" alt="image" /&gt;&lt;/a&gt;&lt;/p&gt;
+            {if:else}
+                &lt;p&gt;&lt;a href="{uploaded_file_url}"&gt;Click here to Download this file&lt;/a&gt;&lt;/p&gt;
+            {/if}
+            {if uploaded_file_user_can_delete}
+                &lt;p&gt;&lt;a href="{site_url}/{segment_1}/{segment_2}/delete_file/{uploaded_file_id}/"&gt;Delete this File?&lt;/a&gt;&lt;/p&gt;
+            {/if}
+        {/uploaded_files}
+    {/if}
+
+    &lt;!-- START Displays only on FIRST page load AFTER file(s) Deletion --&gt;
+    {if deleted_files}
+            &lt;p&gt;{deleted_files_total} file(s) have been deleted from this comment:&lt;/p&gt;
+        {deleted_files}
+            &lt;p&gt;The file named "{deleted_file_original_name}" has been successfully removed from the comment and the server.&lt;/p&gt;
+        {/deleted_files}
+    {/if}
+    &lt;!-- END Displays only on FIRST page load AFTER file(s) Deletion --&gt;
+
+    &lt;!-- END Comment Uploads code --&gt;
+    &lt;/div&gt;
+{/exp:comment:entries}
+</pre>
+
+<p>To make sure your URL’s match the conditionals in the above code, if the
+URL to your comments page is (with url_title or entry ID):</p>
+
+<pre class="brush: html;">http://www.yoursite.com/comments/url_title_of_entry/</pre>
+
+<p>Then your link to delete just the 1 file would look like this (once
+parsed):</p>
+
+<pre class="brush: html;">http://www.yoursite.com/comments/url_title_of_entry/delete_file/FILE_ID/</pre>
+
+<p>Your link to delete all files for a comment would look like this (once
+parsed):</p>
+
+<pre class="brush: html;">http://www.yoursite.com/comments/url_title_of_entry/delete_comment_files/COMMENT_ID/</pre>
+
+<p><a name="link_to_another_page_for_result"></a></p>
+
+<h3>Link to Another Page for Result</h3>
+
+<p>This way would be the usual way of performing an action like this.
+You’ll basically link from your current comments page to another page
+where it will show a simple result of the outcome. Using the similar
+setup from displaying Uploaded Files in the <a href="comment_entries.html">Comment Entries</a> example, you would do this:</p>
+
+<pre class="brush: html;">{exp:comment:entries
+    sort="asc"
+    limit="20"
+}
+    &lt;div class="comment"&gt;
+        &lt;p&gt;Posted by {name} on {comment_date format="%Y %m %d"}&lt;/p&gt;
+        &lt;p&gt;{comment}&lt;/p&gt;
+
+&lt;!-- START Comment Uploads code --&gt;
+{if uploaded_files}
+        &lt;p&gt;{uploaded_files_total} file(s) are attached to this comment:&lt;/p&gt;
+        {if uploaded_file_user_can_delete}
+            &lt;p&gt;&lt;a href="{url_title_path='path_to/comment_delete_template'}/delete_comment_files/{comment_id}/"&gt;Delete ALL files for this Comment?&lt;/a&gt;&lt;/p&gt;
+        {/if}
+    {uploaded_files}
+        {if uploaded_file_is_image}
+            &lt;p&gt;&lt;a href="{uploaded_file_url}"&gt;&lt;img src="{uploaded_file_url}" height="{uploaded_file_height}" width="{uploaded_file_width}" alt="image" /&gt;&lt;/a&gt;&lt;/p&gt;
+        {if:else}
+            &lt;p&gt;&lt;a href="{uploaded_file_url}"&gt;Click here to Download this file&lt;/a&gt;&lt;/p&gt;
+        {/if}
+        {if uploaded_file_user_can_delete}
+            &lt;p&gt;&lt;a href="{url_title_path='path_to/comment_delete_template'}/delete_file/{uploaded_file_id}/"&gt;Delete this File?&lt;/a&gt;&lt;/p&gt;
+        {/if}
+    {/uploaded_files}
+{/if}
+&lt;!-- END Comment Uploads code --&gt;
+
+{/exp:comment:entries}
+</pre>
+
+<p>Your <strong>delete</strong> template, located at <strong>path_to/comment_delete_template</strong>:</p>
+
+<pre class="brush: html;">{exp:comment:entries
+    sort="asc"
+    limit="20"
+    {if segment_4 == "delete_file"}
+        delete_uploaded_file="{segment_5}"
+    {/if}
+    {if segment_4 == "delete_comment_files"}
+        delete_files_from_comment="{segment_5}"
+    {/if}
+}
+
+&lt;!-- START Comment Uploads code --&gt;
+
+&lt;!-- START Displays only on FIRST page load AFTER file(s) Deletion --&gt;
+{if deleted_files}
+        &lt;p&gt;{deleted_files_total} file(s) have been deleted from this comment:&lt;/p&gt;
+    {deleted_files}
+        &lt;p&gt;The file named "{deleted_file_original_name}" has been successfully removed from the comment and the server.&lt;/p&gt;
+    {/deleted_files}
+{if:else}
+        &lt;p&gt;No file(s) have been deleted.&lt;/p&gt;
+{/if}
+&lt;!-- END Displays only on FIRST page load AFTER file(s) Deletion --&gt;
+
+&lt;!-- END Comment Uploads code --&gt;
+
+{/exp:comment:entries}
+</pre>
+
+<p>To make sure your URL’s match the conditionals and URL scructure in the
+above code, you would link to the Delete template page like this:</p>
+
+<p>Your link to delete just the 1 file would look like this (once parsed):</p>
+
+<pre class="brush: html;">http://www.yoursite.com/path_to/comment_delete_template/url_title_of_entry/delete_file/FILE_ID/</pre>
+
+<p>Your link to delete all files for a comment would look like this (once
+parsed):</p>
+
+<pre class="brush: html;">http://www.yoursite.com/path_to/comment_delete_template/url_title_of_entry/delete_comment_files/COMMENT_ID/</pre>
+			</article>
+		</div>
+
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+		<script src="assets/syntaxhighlighter/scripts/shCore.js"></script>
+		<script src="assets/syntaxhighlighter/scripts/shAutoloader.js"></script>
+		<script src="assets/js/main.js"></script>
+	</body>
+</html>

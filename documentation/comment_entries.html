@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>		<html class="no-js ie6"> <![endif]-->
+<!--[if IE 7]>			<html class="no-js ie7"> <![endif]-->
+<!--[if IE 8]>			<html class="no-js ie8"> <![endif]-->
+<!--[if IE 8]>			<html class="no-js ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->	<html class="no-js"> <!--<![endif]-->
+	<head lang="en">
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>Comment Entries | Comment Uploads | Solspace Addon Documentation</title>
+		<meta name="description" content="" />
+		<meta name="copyright" content="(c) 2010 Copyright content: Copyright design: Solspace, Inc."/>
+		<meta name="viewport" content="width=device-width" />
+		<link rel="stylesheet" href="assets/css/normalize.css" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" type="text/css" href="assets/fancybox/jquery.fancybox-1.3.4.css" />
+		<link href="assets/syntaxhighlighter/styles/shCore.css" rel="stylesheet" type="text/css" />
+		<link href="assets/syntaxhighlighter/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+		<script src="assets/js/modernizr.min.js"></script>
+	</head>
+	<body>
+		<!--[if lt IE 8]>
+			<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+		<![endif]-->
+
+		<header>
+			<div class="header-inner">
+				<div class="logo">
+					<img src="assets/images/logo.png" />
+				</div>
+
+				<div class="bread_crumbs">
+					<ul class="crumbs">
+						<li class="first"><a href="index.html">Comment Uploads</a></li>
+						<li>Comment Entries</li>
+					</ul>
+				</div>
+			</div>
+		</header>
+
+		<div class="content-wrapper">
+			<nav class="toc">
+				<ul>
+<li><a href="http://www.solspace.com/software/detail/comment_uploads/">More Info | Purchase</a></li>
+<li><a href="change_log.html">Change Log</a></li>
+<li><a href="install_update.html">Install / Update</a></li>
+<li><a href="control_panel.html">Control Panel</a></li>
+<li class="template_tags"><h3>Template Tags</h3>
+
+<ul>
+<li class="current"><a href="comment_entries.html">Comment Entries</a></li>
+<li><a href="comment_form.html">Comment Form</a></li>
+<li><a href="deleting_uploads.html">Deleting Uploads</a></li>
+</ul></li>
+<li><h3>Requirements</h3><div class="requirements">
+
+<ul>
+<li>EE 2.5.x - 2.8.x</li>
+<li>PHP 5.2+</li>
+<li>MySQL 5+</li>
+</ul></div></li>
+</ul>
+			</nav>
+
+			<article class="docs">
+				<p>The Comments Upload extension integrates with the native <a href="http://ellislab.com/expressionengine/user-guide/add-ons/comment/index.html#comment-entries-tag">EE Comments
+Entries</a>
+tag. It allows you to add an additional set of variables that enables
+the display of uploaded file attachments.</p>
+
+<pre class="brush: html;">{exp:comment:entries} content {/exp:comment:entries} </pre>
+
+<ul>
+<li><a href="#variables">Variables</a></li>
+<li><a href="#variable_pairs">Variable Pairs</a></li>
+<li><a href="#conditionals">Conditionals</a></li>
+<li><a href="#examples">Examples</a></li>
+</ul>
+
+<p><a name="variables"></a></p>
+
+<h2>Variables</h2>
+
+<p>The following variables become available with the <em>Comment Uploads</em>
+extension enabled:</p>
+
+<ul>
+<li><a href="#uploaded_file_count">uploaded_file_count</a></li>
+<li><a href="#uploaded_file_height">uploaded_file_height</a></li>
+<li><a href="#uploaded_file_id">uploaded_file_id</a></li>
+<li><a href="#uploaded_file_img_type">uploaded_file_img_type</a></li>
+<li><a href="#uploaded_file_name">uploaded_file_name</a></li>
+<li><a href="#uploaded_file_original_name">uploaded_file_original_name</a></li>
+<li><a href="#uploaded_file_size">uploaded_file_size</a></li>
+<li><a href="#uploaded_file_size_kb">uploaded_file_size_kb</a></li>
+<li><a href="#uploaded_file_size_mb">uploaded_file_size_mb</a></li>
+<li><a href="#uploaded_file_type">uploaded_file_type</a></li>
+<li><a href="#uploaded_file_url">uploaded_file_url</a></li>
+<li><a href="#uploaded_file_width">uploaded_file_width</a></li>
+<li><a href="#uploaded_files_total">uploaded_files_total</a></li>
+</ul>
+
+<p><a name="uploaded_file_count"></a></p>
+
+<h3>uploaded_file_count</h3>
+
+<pre class="brush: html;">{uploaded_file_count} </pre>
+
+<p>This variable outputs the position number of the upload within the
+uploaded files. For use only with the <a href="#uploaded_files">uploaded_files</a>
+variable pair.</p>
+
+<p><a name="uploaded_file_height"></a></p>
+
+<h3>uploaded_file_height</h3>
+
+<pre class="brush: html;">{uploaded_file_height} </pre>
+
+<p>This variable outputs the height of the uploaded file, if it is an image
+file (ex: <strong>100</strong>). For use only with the <a href="#uploaded_files">uploaded_files</a>
+variable pair.</p>
+
+<p><a name="uploaded_file_id"></a></p>
+
+<h3>uploaded_file_id</h3>
+
+<pre class="brush: html;">{uploaded_file_id} </pre>
+
+<p>This variable outputsthe unique ID of the file that has been uploaded
+(ex: <strong>36</strong>). For use only with the <a href="#uploaded_files">uploaded_files</a>
+variable pair.</p>
+
+<p><a name="uploaded_file_img_type"></a></p>
+
+<h3>uploaded_file_img_type</h3>
+
+<pre class="brush: html;">{uploaded_file_img_type} </pre>
+
+<p>This variable outputs the numerical type of image the file is, if it is
+an image file (<em>.JPG</em> is <strong>1</strong>, <em>.GIF</em> is <strong>2</strong>, and <em>.PNG</em> is <strong>3</strong>). For use only with the <a href="#uploaded_files">uploaded_files</a> variable pair.</p>
+
+<p><a name="uploaded_file_name"></a></p>
+
+<h3>uploaded_file_name</h3>
+
+<pre class="brush: html;">{uploaded_file_name} </pre>
+
+<p>This variable outputs the new name (and extension) of the file that has
+been uploaded (ex: <strong>125-356-20091113111610-1.pdf</strong>). For use only with the
+<a href="#uploaded_files">uploaded_files</a> variable pair.</p>
+
+<p><a name="uploaded_file_original_name"></a></p>
+
+<h3>uploaded_file_original_name</h3>
+
+<pre class="brush: html;">{uploaded_file_original_name} </pre>
+
+<p>This variable outputs the original name (and extension) of the file that
+has been uploaded (ex: <strong>filename.pdf</strong>). For use only with the
+<a href="#uploaded_files">uploaded_files</a> variable pair.</p>
+
+<p><a name="uploaded_file_size"></a></p>
+
+<h3>uploaded_file_size</h3>
+
+<pre class="brush: html;">{uploaded_file_size} </pre>
+
+<p>This variable outputs the size in bytes of the file that has been
+uploaded (ex: <strong>96809</strong>). For use only with the
+<a href="#uploaded_files">uploaded_files</a> variable pair.</p>
+
+<p><a name="uploaded_file_size_kb"></a></p>
+
+<h3>uploaded_file_size_kb</h3>
+
+<pre class="brush: html;">{uploaded_file_size_kb} </pre>
+
+<p>This variable outputs the size in kilobytes of the file that has been
+uploaded (ex: <strong>94.54</strong>). For use only with the
+<a href="#uploaded_files">uploaded_files</a> variable pair.</p>
+
+<p><a name="uploaded_file_size_mb"></a></p>
+
+<h3>uploaded_file_size_mb</h3>
+
+<pre class="brush: html;">{uploaded_file_size_mb} </pre>
+
+<p>This variable outputs the size in megabytes of the file that has been
+uploaded (ex: <strong>0.09</strong>). For use only with the
+<a href="#uploaded_files">uploaded_files</a> variable pair.</p>
+
+<p><a name="uploaded_file_type"></a></p>
+
+<h3>uploaded_file_type</h3>
+
+<pre class="brush: html;">{uploaded_file_type} </pre>
+
+<p>This variable outputs the type of the file that has been uploaded (ex:
+<strong>image/pjpeg</strong> or <strong>application/pdf</strong>). For use only with the
+<a href="#uploaded_files">uploaded_files</a> variable pair.</p>
+
+<p><a name="uploaded_file_url"></a></p>
+
+<h3>uploaded_file_url</h3>
+
+<pre class="brush: html;">{uploaded_file_url} </pre>
+
+<p>This variable outputs the complete URL path of the file that has been
+uploaded (ex: <strong>http://www.yoursite.com/images/uploads/comments/filename.jpg</strong>). For use only with the <a href="#uploaded_files">uploaded_files</a> variable pair.</p>
+
+<p><a name="uploaded_file_width"></a></p>
+
+<h3>uploaded_file_width</h3>
+
+<pre class="brush: html;">{uploaded_file_width} </pre>
+
+<p>This variable outputs the width of the uploaded file, if it is an image
+file (ex: <strong>150</strong>). For use only with the <a href="#uploaded_files">uploaded_files</a>
+variable pair.</p>
+
+<p><a name="uploaded_files_total"></a></p>
+
+<h3>uploaded_files_total</h3>
+
+<pre class="brush: html;">{uploaded_files_total} </pre>
+
+<p>This variable outputs the total number of uploaded files for a
+particular comment.</p>
+
+<p><a name="variable_pairs"></a></p>
+
+<h2>Variable Pairs</h2>
+
+<p>The following variable pair becomes available with the <em>Comment Uploads</em>
+extension enabled:</p>
+
+<ul>
+<li><a href="#uploaded_files">uploaded_files</a></li>
+</ul>
+
+<p><a name="uploaded_files"></a></p>
+
+<h3>uploaded_files</h3>
+
+<pre class="brush: html;">{uploaded_files} stuff {/uploaded_files} </pre>
+
+<p>This variable pair allows you to display uploaded files and control the
+formatting for them within the <em>Comment:Entries</em> loop.</p>
+
+<p><strong>NOTE:</strong> This variable pair is required, should you wish to display any
+file-specific variables.</p>
+
+<p><a name="conditionals"></a></p>
+
+<h2>Conditionals</h2>
+
+<p>The following conditionals become available with the <em>Comment Uploads</em>
+extension enabled:</p>
+
+<ul>
+<li><a href="#uploaded_file_is_image">if uploaded_file_is_image</a></li>
+<li><a href="#uploaded_file_user_can_delete">if uploaded_file_user_can_delete</a></li>
+<li><a href="#uploaded_files">if uploaded_files</a></li>
+</ul>
+
+<p><a name="uploaded_file_is_image"></a></p>
+
+<h3>if uploaded_file_is_image</h3>
+
+<pre class="brush: html;">{if uploaded_file_is_image} image content {if:else} non-image content {/if} </pre>
+
+<p>This conditional allows you to determine if the file uploaded is an
+image or not. If the file is an image, you can then use standard image
+formatting to display the file as an image.</p>
+
+<p><a name="uploaded_file_user_can_delete"></a></p>
+
+<h3>if uploaded_file_user_can_delete</h3>
+
+<pre class="brush: html;">{if uploaded_file_user_can_delete} stuff {/if} </pre>
+
+<p>This conditional evaluates to TRUE if the currently logged in user has
+the <a href="deleting_uploads.html#summary">necessary permissions</a> to delete the file(s).</p>
+
+<p><a name="uploaded_files"></a></p>
+
+<h3>if uploaded_files</h3>
+
+<pre class="brush: html;">{if uploaded_files} stuff {/if} </pre>
+
+<p>This conditional simply allows you to check if any files were attached
+to a given comment.</p>
+
+<p><a name="examples"></a></p>
+
+<h2>Examples</h2>
+
+<p>You would normally just add the above variable pairs and variables to
+your existing Comment Entries code and it should work right away:</p>
+
+<pre class="brush: html;">{exp:comment:entries
+    sort="asc"
+    limit="20"
+}
+    &lt;div class="comment"&gt;
+        &lt;p&gt;Posted by {name} on {comment_date format="%Y %m %d"}&lt;/p&gt;
+        &lt;p&gt;{comment}&lt;/p&gt;
+
+&lt;!-- START Comment Uploads code --&gt;
+{if uploaded_files}
+    &lt;p&gt;{uploaded_files_total} file(s) are attached to this comment:&lt;/p&gt;
+    {uploaded_files}
+    {if uploaded_file_is_image}
+        &lt;p&gt;&lt;a href="{uploaded_file_url}"&gt;&lt;img src="{uploaded_file_url}" height="{uploaded_file_height}" width="{uploaded_file_width}" alt="image" /&gt;&lt;/a&gt;&lt;/p&gt;
+    {if:else}
+        &lt;p&gt;&lt;a href="{uploaded_file_url}"&gt;Click here to Download this file&lt;/a&gt;&lt;/p&gt;
+    {/if}
+    {/uploaded_files}
+{/if}
+&lt;!-- END Comment Uploads code --&gt;
+
+{/exp:comment:entries}
+</pre>
+			</article>
+		</div>
+
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+		<script src="assets/syntaxhighlighter/scripts/shCore.js"></script>
+		<script src="assets/syntaxhighlighter/scripts/shAutoloader.js"></script>
+		<script src="assets/js/main.js"></script>
+	</body>
+</html>

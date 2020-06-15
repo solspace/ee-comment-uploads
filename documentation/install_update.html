@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>		<html class="no-js ie6"> <![endif]-->
+<!--[if IE 7]>			<html class="no-js ie7"> <![endif]-->
+<!--[if IE 8]>			<html class="no-js ie8"> <![endif]-->
+<!--[if IE 8]>			<html class="no-js ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->	<html class="no-js"> <!--<![endif]-->
+	<head lang="en">
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>Install / Update | Comment Uploads | Solspace Addon Documentation</title>
+		<meta name="description" content="" />
+		<meta name="copyright" content="(c) 2010 Copyright content: Copyright design: Solspace, Inc."/>
+		<meta name="viewport" content="width=device-width" />
+		<link rel="stylesheet" href="assets/css/normalize.css" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" type="text/css" href="assets/fancybox/jquery.fancybox-1.3.4.css" />
+		<link href="assets/syntaxhighlighter/styles/shCore.css" rel="stylesheet" type="text/css" />
+		<link href="assets/syntaxhighlighter/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+		<script src="assets/js/modernizr.min.js"></script>
+	</head>
+	<body>
+		<!--[if lt IE 8]>
+			<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+		<![endif]-->
+
+		<header>
+			<div class="header-inner">
+				<div class="logo">
+					<img src="assets/images/logo.png" />
+				</div>
+
+				<div class="bread_crumbs">
+					<ul class="crumbs">
+						<li class="first"><a href="index.html">Comment Uploads</a></li>
+						<li>Install / Update</li>
+					</ul>
+				</div>
+			</div>
+		</header>
+
+		<div class="content-wrapper">
+			<nav class="toc">
+				<ul>
+<li><a href="http://www.solspace.com/software/detail/comment_uploads/">More Info | Purchase</a></li>
+<li><a href="change_log.html">Change Log</a></li>
+<li class="current"><a href="install_update.html">Install / Update</a></li>
+<li><a href="control_panel.html">Control Panel</a></li>
+<li class="template_tags"><h3>Template Tags</h3>
+
+<ul>
+<li><a href="comment_entries.html">Comment Entries</a></li>
+<li><a href="comment_form.html">Comment Form</a></li>
+<li><a href="deleting_uploads.html">Deleting Uploads</a></li>
+</ul></li>
+<li><h3>Requirements</h3><div class="requirements">
+
+<ul>
+<li>EE 2.5.x - 2.8.x</li>
+<li>PHP 5.2+</li>
+<li>MySQL 5+</li>
+</ul></div></li>
+</ul>
+			</nav>
+
+			<article class="docs">
+				<p><a name="install"></a></p>
+
+<h2>Installation</h2>
+
+<ol>
+<li>Within the <strong>/system/expressionengine/third_party/</strong> directory, copy the <em>comment_uploads</em> folder into your sites <strong>./system/expressionengine/third_party/</strong> directory.</li>
+<li>Go to the Extensions area in the ExpressionEngine control panel, find <em>Comment Uploads</em> in the list, and click <strong>Enable</strong>.</li>
+<li>Setup and configuring:
+
+<ul>
+<li>Enabling this extension will automatically create a new <strong>File Upload Preference</strong> in the ExpressionEngine CP, and a new folder named <em>comments</em> in your <strong>./images/uploads/</strong> directory.</li>
+<li>Make sure the permissions of this folder are set to <strong>writable</strong>, typically 777 on Unix servers.</li>
+<li>There is no CP-based configuration for this extension, aside from the EE File Upload Preference - you can edit that as necessary. The rest of the functionality lies with the template tags.</li>
+</ul></li>
+</ol>
+
+<p><a name="update"></a></p>
+
+<h2>Updating</h2>
+
+<ol>
+<li>Within your sites <strong>./system/expressionengine/third_party/</strong> directory, delete the <em>comment_uploads</em> folder and upload the new one from the <strong>/system/expressionengine/third_party/</strong> directory in your download package.</li>
+<li>The extension will update automatically, and requires no further action from you.</li>
+</ol>
+			</article>
+		</div>
+
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+		<script src="assets/syntaxhighlighter/scripts/shCore.js"></script>
+		<script src="assets/syntaxhighlighter/scripts/shAutoloader.js"></script>
+		<script src="assets/js/main.js"></script>
+	</body>
+</html>

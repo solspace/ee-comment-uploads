@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>		<html class="no-js ie6"> <![endif]-->
+<!--[if IE 7]>			<html class="no-js ie7"> <![endif]-->
+<!--[if IE 8]>			<html class="no-js ie8"> <![endif]-->
+<!--[if IE 8]>			<html class="no-js ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->	<html class="no-js"> <!--<![endif]-->
+	<head lang="en">
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>Installation 2.0.x | Comment Uploads | Solspace Addon Documentation</title>
+		<meta name="description" content="" />
+		<meta name="copyright" content="(c) 2010 Copyright content: Copyright design: Solspace, Inc."/>
+		<meta name="viewport" content="width=device-width" />
+		<link rel="stylesheet" href="assets/css/normalize.css" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" type="text/css" href="assets/fancybox/jquery.fancybox-1.3.4.css" />
+		<link href="assets/syntaxhighlighter/styles/shCore.css" rel="stylesheet" type="text/css" />
+		<link href="assets/syntaxhighlighter/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+		<script src="assets/js/modernizr.min.js"></script>
+	</head>
+	<body>
+		<!--[if lt IE 8]>
+			<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+		<![endif]-->
+
+		<header>
+			<div class="header-inner">
+				<div class="logo">
+					<img src="assets/images/logo.png" />
+				</div>
+
+				<div class="bread_crumbs">
+					<ul class="crumbs">
+						<li class="first"><a href="index.html">Comment Uploads</a></li>
+						<li>Installation 2.0.x</li>
+					</ul>
+				</div>
+			</div>
+		</header>
+
+		<div class="content-wrapper">
+			<nav class="toc">
+				<ul>
+<li><a href="http://www.solspace.com/software/detail/comment_uploads/">More Info | Purchase</a></li>
+<li><a href="change_log.html">Change Log</a></li>
+<li><a href="install_update.html">Install / Update</a></li>
+<li><a href="control_panel.html">Control Panel</a></li>
+<li class="template_tags"><h3>Template Tags</h3>
+
+<ul>
+<li><a href="comment_entries.html">Comment Entries</a></li>
+<li><a href="comment_form.html">Comment Form</a></li>
+<li><a href="deleting_uploads.html">Deleting Uploads</a></li>
+</ul></li>
+<li><h3>Requirements</h3><div class="requirements">
+
+<ul>
+<li>EE 2.5.x - 2.8.x</li>
+<li>PHP 5.2+</li>
+<li>MySQL 5+</li>
+</ul></div></li>
+</ul>
+			</nav>
+
+			<article class="docs">
+				<h2>Installation for Comment Uploads 2.0.x on EE 1.x</h2>
+
+<p>These instructions are for installing Comment Uploads 2.0.x on ExpressionEngine 1.x only. If you're installing the latest version of Comment Uploads, please refer to the applicable <a href="install_update.html#install">installation instructions</a>.</p>
+
+<p><a name="1"></a></p>
+
+<h3>1. Copy Add-on Files</h3>
+
+<ul>
+<li>Within the <strong>/EE1/system/</strong> directory, copy the <em>bridge</em> folder into your
+sites' <strong>./system/</strong> directory.</li>
+<li>Within the <strong>/EE1/system/extensions/</strong> directory, copy all folders and
+files into your sites' <strong>./system/extensions/</strong> directory.</li>
+<li>Within the <strong>/EE1/system/language/english/</strong> directory, copy the
+<strong>lang.comment_uploads.php</strong> file into your sites'
+<strong>./system/language/english/</strong> directory.</li>
+</ul>
+
+<p><a name="2"></a></p>
+
+<h3>2. Installing the Add-On</h3>
+
+<ul>
+<li>Go to the Extensions area in the ExpressionEngine Control Panel,
+find <em>Comment Uploads</em> in the list, and click <strong>Enable</strong>.</li>
+</ul>
+
+<p><a name="3"></a></p>
+
+<h3>3. Setup &amp; Configuring</h3>
+
+<ul>
+<li>Enabling the Comment Uploads extension will automatically create a
+new File Upload Preference in the ExpressionEngine CP, and a new
+folder named <em>comments</em> in your <strong>./images/uploads/</strong> directory.</li>
+<li>Make sure the permissions of this folder to writable, typically 777
+on Unix servers (<strong>Note:</strong><a href="http://enginehosting.com">EngineHosting</a>
+clients can skip this step).</li>
+<li>There is no CP-based configuration for the Comment Uploads
+extension, aside from the EE File Upload Preference - you can edit
+that as necessary. The rest of the functionality lies with the
+template tags.</li>
+</ul>
+
+<p><a name="4"></a></p>
+
+<h3>4. Troubleshooting and Support</h3>
+
+<p>For Support and Troubleshooting, visit the <a href="http://www.solspace.com/forums/">Solspace Support
+Forums</a>.</p>
+			</article>
+		</div>
+
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+		<script src="assets/syntaxhighlighter/scripts/shCore.js"></script>
+		<script src="assets/syntaxhighlighter/scripts/shAutoloader.js"></script>
+		<script src="assets/js/main.js"></script>
+	</body>
+</html>

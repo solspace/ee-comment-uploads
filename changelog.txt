@@ -1,0 +1,23 @@
+Solspace - Comment Uploads - Change Log
+
+2.1.0 (January 29, 2013)
+ - Removed support for ExpressionEngine 1.x (Comment Uploads is now EE2 only).
+ - Added offline documentation files to download package.
+ - Fixed a bug where uploaded comment files would only display for the first entry of a multi-entry page. 
+
+2.0.1 (February 7, 2012)
+ - Fixed a bug where a the upload_dir_id= or upload_dir_name= parameters were being ignored.
+ - Fixed a bug where uploads would sometimes not work in EE1.
+
+2.0.0 (May 17, 2011)
+ - Converted Comment Uploads to use Solspace Add-on Builder Framework, and Solspace Bridge for EE 1.x.
+
+1.1.0 (November 13, 2009)
+ - Added support for file Delete functionality and variables, based on native EE membership permissions.
+ - Added {uploaded_file_original_name} variable to display the original file name of the uploaded file.
+ - Added {uploaded_file_id} variable to display the unique ID of the uploaded file.
+ - Added {uploaded_file_size_kb} and {uploaded_file_size_mb} variables.
+ - Changed {uploaded_files_count} variable to be {uploaded_files_total}. {uploaded_files_count} is now deprecated.
+
+1.0.0 (September 16, 2009)
+ - Initial release.
